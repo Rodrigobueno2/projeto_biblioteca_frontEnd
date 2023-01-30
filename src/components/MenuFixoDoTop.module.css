@@ -1,0 +1,11 @@
+
+.links{
+    margin:10px;
+    text-decoration: none;
+    color: rgb(209, 207, 207);
+    
+ }
+
+ :hover.links{
+    color: white;
+ }
