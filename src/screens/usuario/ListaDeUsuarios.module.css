@@ -1,0 +1,31 @@
+.link{
+    text-decoration: none;
+    color:black;
+    padding: 40px;
+    
+ }
+
+ :hover.link{
+    color: rgb(206, 205, 205);
+ }
+
+ .usuarios{
+   flex-direction:row;
+   justify-content:center;
+   margin: 2px;
+   height: 200px;
+   border-width: medium;
+   border-style: solid;
+   border-color: rgb(15, 15, 15);
+   padding: 20px;
+ }
+
+ .botoes{
+   margin: 10px;
+ }
+
+ .map{
+   display: grid;
+   grid-template-columns: 500px 500px 500px;
+ }
+

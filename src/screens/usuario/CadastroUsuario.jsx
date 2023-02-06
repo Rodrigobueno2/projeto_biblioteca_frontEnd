@@ -108,7 +108,7 @@ export default function CadastroUsuario() {
   };
 
   const salvar = ()=>{
-    axios.post("https://crudcrud.com/api/83f1d761cb204322b772b66e1c6b52d6/usuario",{
+    axios.post("https://crudcrud.com/api/97cdd265e66d42bbbd0601f9f8d549bc/usuario",{
       nome:usuario.nome,
       cpf:usuario.cpf,
       dataDeNascimento:usuario.dataDeNascimento,

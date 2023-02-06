@@ -1,0 +1,23 @@
+.contatos{
+    border-width: medium;
+    border-style: solid;
+    border-color: rgb(15, 15, 15);
+    width: 400px;
+    padding:20px;
+}
+
+.listaDeContatos{
+    margin-left: 140px;
+    margin-right: 140px;
+    display: grid;
+    grid-template-columns: 400px 400px 400px;
+}
+
+.endereco{
+    border-width: medium;
+    border-style: solid;
+    border-color: rgb(15, 15, 15);
+    width: 600px;
+    padding:20px;
+    margin-left: 480px;
+}
