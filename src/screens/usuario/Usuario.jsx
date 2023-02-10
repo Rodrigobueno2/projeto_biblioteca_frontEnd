@@ -1,12 +1,14 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Spinner from 'react-bootstrap/Spinner'
 import MenuFixoDoTopo from '../../components/MenuFixoDoTop';
 import styles from '../usuario/Usuario.module.css'
 import {url} from '../../url/Url'
+import { Button } from 'react-bootstrap';
 
 export default function Usuario() {
+  const navigate = useNavigate()
   const {id} = useParams();
   const [usuario , setUsuario] = useState();
 
@@ -55,8 +57,9 @@ export default function Usuario() {
                 </div>
               ))}
             </div>
-          </p>
-          
+            <Button type='button' variant="danger" className={styles.botoes} onClick={()=>navigate('/excluirUsuario/'+id)}>Excluir</Button>
+            <Button type='button' variant="success" className={styles.botoes} onClick={()=>navigate('/cadastroUsuario/'+id)}>Atualizar</Button>
+          </p>  
           : <Spinner animation="border" role="status">
               <span className="visually-hidden">Loading...</span>
             </Spinner>

@@ -5,11 +5,12 @@ import styles from "../usuario/CadastroUsuario.module.css"
 import Button from 'react-bootstrap/Button';
 import Row from "react-bootstrap/Row";
 import * as yup from "yup";
-import { useParams,redirect } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {url} from '../../url/Url'
 
 export default function CadastroUsuario() {
+  const navigate = useNavigate();
   const initialValoresUsuario = {
     nome: "",
     cpf: "",
@@ -185,7 +186,7 @@ export default function CadastroUsuario() {
       },
       contatos:listaContatos
     }).then(()=>{
-
+        navigate("/usuarios")
     }).catch((err)=>{
 
     })
