@@ -1,26 +1,30 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import { Form } from "react-bootstrap";
 import MenuFixoDoTopo from "../../components/MenuFixoDoTop";
 import styles from "../usuario/CadastroUsuario.module.css"
 import Button from 'react-bootstrap/Button';
 import Row from "react-bootstrap/Row";
 import * as yup from "yup";
-import { useParams,redirect } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import {url} from '../../url/Url'
 
 export default function CadastroUsuario() {
+  const navigate = useNavigate();
   const initialValoresUsuario = {
     nome: "",
     cpf: "",
     dataDeNascimento: "",
-    rua:"",
-    numero:"",
-    bairro:"",
-    cidade:"",
-    complemento:""
   };
 
   const[usuario,setUsuario] = useState(initialValoresUsuario);
+  const[endereco,setEndereco] = useState({
+    rua: "",
+    numero: "",
+    bairro: "",
+    cidade: "",
+    complemento: ""
+  })
   const [contatos, setContatos] = useState({
     nomeContato: "",
     telefone: "",
@@ -33,16 +37,38 @@ export default function CadastroUsuario() {
   })
 
 
+  const {id} = useParams();
+
+  
+  useEffect(() => {
+    if(id){
+      obterUsuarioPorId()
+    }
+
+ },[]);
+
+ const obterUsuarioPorId = ()=>{
+    axios.get(url+"/usuario/"+id).then((element)=>{
+       setUsuario(element.data);
+       setListaContatos(element.data.contatos)
+       setEndereco(element.data.endereco)
+    }).catch((err)=>{
+       console.log(err);
+    })
+ }
+
   let schema = yup.object().shape({
     nome: yup.string("Necessario preencher o campo nome").required("Necessario preencher o campo nome"),
     cpf:  yup.string("Necessario preencher o campo cpf").required("Necessario preencher o campo cpf"),
     dataDeNascimento: yup.string("Necessario preencher o campo data de Nascimento").required("Necessario preencher a data de nascimento"),
+
+  });
+
+  let schemaEndereco = yup.object().shape({
     rua: yup.string("Necessario preencher o campo rua/avenida").required("Necessario preencher o campo rua/avenida"),
     numero: yup.string("Necessario preencher o numero da residencia").required("Necessario preencher o numero da residencia"),
     bairro: yup.string("Necessario preencher o nome do bairro").required("Necessario preencher o nome do bairro"),
     cidade: yup.string("Necessario preencher o nome da cidade").required("Necessario preencher o nome da cidade"),
-
-
   });
 
   let schemaContato = yup.object().shape({
@@ -57,9 +83,21 @@ export default function CadastroUsuario() {
     event.stopPropagation();
     
     schema.validate(usuario).then(()=>{
-      setStatus({tipo:"sucesso",mensagem:"cadastro realizado com sucesso"})
+      schemaEndereco.validate(endereco).then(()=>{
+        if(id){
+          setStatus({tipo:"sucesso",mensagem:"alteração realizado com sucesso"})
+          alterar()
+        }else{
+          setStatus({tipo:"sucesso",mensagem:"cadastro realizado com sucesso"})
       
-      salvar()
+          salvar()
+        }
+        
+      }).catch((erro)=>{
+        alert(erro)
+        setStatus({tipo:"erro",mensagem:""+erro})
+      })
+      
       
      }).catch((erro)=>{
       alert(erro)
@@ -73,7 +111,11 @@ export default function CadastroUsuario() {
     const { name, value } = ev.target;
     setContatos({ ...contatos, [name]: value });
   }
-
+  
+  function onChangeEndereco(ev){
+    const { name, value } = ev.target;
+    setEndereco({ ...endereco, [name]: value });
+  }
 
   function onChange(ev){
     const { name, value } = ev.target;
@@ -108,16 +150,16 @@ export default function CadastroUsuario() {
   };
 
   const salvar = ()=>{
-    axios.post("https://crudcrud.com/api/97cdd265e66d42bbbd0601f9f8d549bc/usuario",{
+    axios.post(url+"/usuario",{
       nome:usuario.nome,
       cpf:usuario.cpf,
       dataDeNascimento:usuario.dataDeNascimento,
       endereco:{
-        rua:usuario.rua,
-        numero:usuario.numero,
-        bairro:usuario.bairro,
-        cidade:usuario.cidade,
-        complemento:usuario.complemento,
+        rua:endereco.rua,
+        numero:endereco.numero,
+        bairro:endereco.bairro,
+        cidade:endereco.cidade,
+        complemento:endereco.complemento,
 
       },
       contatos:listaContatos
@@ -128,6 +170,27 @@ export default function CadastroUsuario() {
     })
   }
 
+
+  const alterar = ()=>{
+    axios.put(url+"/usuario/"+id,{
+      nome:usuario.nome,
+      cpf:usuario.cpf,
+      dataDeNascimento:usuario.dataDeNascimento,
+      endereco:{
+        rua:endereco.rua,
+        numero:endereco.numero,
+        bairro:endereco.bairro,
+        cidade:endereco.cidade,
+        complemento:endereco.complemento,
+
+      },
+      contatos:listaContatos
+    }).then(()=>{
+        navigate("/usuarios")
+    }).catch((err)=>{
+
+    })
+  }
 
   return (
     <div>
@@ -143,19 +206,19 @@ export default function CadastroUsuario() {
             </div>
             <div className={styles.divNome}>
               <label>Data de Nascimento *: </label>
-              <input type="date" name="dataDeNascimento" onChange={onChange} className={styles.date}/>
+              <input type="date" name="dataDeNascimento" onChange={onChange} className={styles.date} value={usuario.dataDeNascimento}/>
               <label>Rua/Avenida *: </label>
-              <input type="text" name="rua" onChange={onChange} className={styles.rua} placeholder="Digite o nome da sua rua"/>
+              <input type="text" name="rua" onChange={onChangeEndereco} className={styles.rua} placeholder="Digite o nome da sua rua" value={endereco.rua}/>
               <label>Numero Residencial *: </label>
-              <input type="text" name="numero" onChange={onChange} className={styles.inputNumero} placeholder="XXX"/>
+              <input type="text" name="numero" onChange={onChangeEndereco} className={styles.inputNumero} placeholder="XXX" value={endereco.numero}/>
             </div>
             <div className={styles.divNome}>
             <label>Bairro *: </label>
-            <input type="text" name="bairro" onChange={onChange} className={styles.inputs2} placeholder="Digite o nome de seu bairro"/>
+            <input type="text" name="bairro" onChange={onChangeEndereco} className={styles.inputs2} placeholder="Digite o nome de seu bairro" value={endereco.bairro}/>
             <label>Cidade *: </label>
-            <input type="text" name="cidade" onChange={onChange} className={styles.inputs2} placeholder="Digite o nome da sua cidade"/>
+            <input type="text" name="cidade" onChange={onChangeEndereco} className={styles.inputs2} placeholder="Digite o nome da sua cidade" value={endereco.cidade}/>
             <label>Complemento: </label>
-            <input type="text" name="complemento" onChange={onChange} className={styles.complemento} placeholder="Digite um complemento"/>
+            <input type="text" name="complemento" onChange={onChangeEndereco} className={styles.complemento} placeholder="Digite um complemento" value={endereco.complemento}/>
             </div> 
             <div>
               <hr />
@@ -197,7 +260,12 @@ export default function CadastroUsuario() {
             </div>
           
             <br/>
-            <button type="submit" disabled={listaContatos.length === 0}>Cadastrar</button>
+            {id?
+              <button type="submit" disabled={listaContatos.length === 0}>Atualizar</button>
+              :<button type="submit" disabled={listaContatos.length === 0}>Cadastrar</button>
+            }
+            
+           
         </Form>
     </div>
 
