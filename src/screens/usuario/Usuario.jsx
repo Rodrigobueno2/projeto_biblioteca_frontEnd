@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import Spinner from 'react-bootstrap/Spinner'
 import MenuFixoDoTopo from '../../components/MenuFixoDoTop';
 import styles from '../usuario/Usuario.module.css'
+import {url} from '../../url/Url'
 
 export default function Usuario() {
   const {id} = useParams();
@@ -15,7 +16,7 @@ export default function Usuario() {
   },[]);
   
    const BuscarUsuario = () =>{
-    axios.get("https://crudcrud.com/api/97cdd265e66d42bbbd0601f9f8d549bc/usuario/"+id).then((element)=>{
+    axios.get(url+"/usuario/"+id).then((element)=>{
        
        setUsuario(element.data)
     }).catch((err)=>{

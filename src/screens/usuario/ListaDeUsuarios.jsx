@@ -5,6 +5,8 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import styles from '../usuario/ListaDeUsuarios.module.css'
 import axios from 'axios';
 import { Col, Row } from 'react-bootstrap';
+import {url} from '../../url/Url'
+
 
 export default function ListaDeUsuarios() {
   
@@ -20,7 +22,7 @@ export default function ListaDeUsuarios() {
 
 
    const ListarUsuarios = () =>{
-      axios.get("https://crudcrud.com/api/97cdd265e66d42bbbd0601f9f8d549bc/usuario").then((element)=>{
+      axios.get(url+"/usuario").then((element)=>{
                setUsuarios(element.data);
                setFiltro(element.data)
                console.log(usuarios)
@@ -52,7 +54,6 @@ export default function ListaDeUsuarios() {
       setFiltroMatricula(event.target.value)
    }
 
-
   return (
     <div>
         <MenuFixoDoTopo
@@ -76,11 +77,13 @@ export default function ListaDeUsuarios() {
                Matricula: {element._id}<Row/>
                Nome usuário: {element.nome}<Row/>
                <Button type='button' variant="primary" className={styles.botoes} onClick={()=>navigate('/usuarios/'+element._id)}>Visualizar</Button>
-               <Button type='button' variant="danger" className={styles.botoes}>Excluir</Button>
-               <Button type='button' variant="success" className={styles.botoes}>Atualizar</Button>
+               <Button type='button' variant="danger" className={styles.botoes} onClick={()=>navigate('/excluirUsuario/'+element._id)}>Excluir</Button>
+               <Button type='button' variant="success" className={styles.botoes} onClick={()=>navigate('/cadastroUsuario/'+element._id)}>Atualizar</Button>
                </div>
            ))}
+           
        </div>
+      
     </div>
   )
 }
