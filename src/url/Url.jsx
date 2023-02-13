@@ -1,2 +1,2 @@
 
- export const url = "https://crudcrud.com/api/d6e0dc3dda2148008f3311490df861f5"
+ export const url = "https://crudcrud.com/api/9e1ae276c8ec458ea684de1090fcacb1"

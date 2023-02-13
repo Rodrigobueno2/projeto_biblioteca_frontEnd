@@ -5,6 +5,8 @@ import CadastroUsuario from './screens/usuario/CadastroUsuario'
 import ExclucaoDeUsuario from './screens/usuario/ExclucaoDeUsuario'
 import ListaDeUsuarios from './screens/usuario/ListaDeUsuarios'
 import Usuario from './screens/usuario/Usuario'
+import CadastroLivro from './screens/livro/CadastroLivro'
+import ListaDeLivro from './screens/livro/ListaDeLivro'
 
 export default function router() {
   return (
@@ -16,6 +18,8 @@ export default function router() {
             <Route path="/usuarios/:id" element={<Usuario/>}/>
             <Route path="/cadastroUsuario/:id" element={<CadastroUsuario/>}/>
             <Route path="/excluirUsuario/:id" element={<ExclucaoDeUsuario/>}/>
+            <Route path="/cadastroLivro" element={<CadastroLivro/>}/>
+            <Route path="/livros" element={<ListaDeLivro/>}/>
         </Routes>
     </BrowserRouter>
   )

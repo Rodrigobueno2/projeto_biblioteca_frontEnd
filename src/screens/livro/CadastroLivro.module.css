@@ -1,0 +1,12 @@
+.form{
+    display: grid;
+    grid-template-columns: 650px 650px;
+    margin:60px;
+}
+
+.input{
+   height: 60px;
+   width:500px;
+   margin: 20px;
+   padding: 20px;
+}
