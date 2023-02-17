@@ -13,7 +13,7 @@ function MenuFixoDoTopo({nomeTela}) {
           <Nav className="me-auto" style={{fontSize:25, margin:20}} >
           <Link to="/" className={styles.links}>Home</Link>
           <Link to="/usuarios" className={styles.links}>Usuários</Link>
-          <Link to="/" className={styles.links}>Livros</Link>
+          <Link to="/livros" className={styles.links}>Livros</Link>
           <Link to="/" className={styles.links}>Empréstimos</Link>
           </Nav>
         </Container>
