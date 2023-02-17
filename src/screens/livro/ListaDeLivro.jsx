@@ -66,9 +66,9 @@ export default function ListaDeLivro() {
                 ***Livro: {key+1}***<Row/>
                Codigo do Livro: {element._id}<Row/>
                Titulo do Livro: {element.titulo}<Row/>
-               <Button type='button' variant="primary" className={styles.botoes} onClick={()=>navigate('/usuarios/'+element._id)}>Visualizar</Button>
-               <Button type='button' variant="danger" className={styles.botoes} onClick={()=>navigate('/excluirUsuario/'+element._id)}>Excluir</Button>
-               <Button type='button' variant="success" className={styles.botoes} onClick={()=>navigate('/cadastroUsuario/'+element._id)}>Atualizar</Button>
+               <Button type='button' variant="primary" className={styles.botoes} onClick={()=>navigate('/livros/'+element._id)}>Visualizar</Button>
+               <Button type='button' variant="danger" className={styles.botoes} onClick={()=>navigate('/excluirLivro/'+element._id)}>Excluir</Button>
+               <Button type='button' variant="success" className={styles.botoes} onClick={()=>navigate('/cadastroLivro/'+element._id)}>Atualizar</Button>
              </div>
           ))}
        </div>

@@ -1,12 +1,29 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Form } from 'react-bootstrap'
 import * as yup from "yup";
 import MenuFixoDoTopo from '../../components/MenuFixoDoTop'
 import styles from '../livro/CadastroLivro.module.css'
 import {url} from '../../url/Url'
+import { useParams } from 'react-router-dom';
 
 export default function CadastroLivro() {
+
+  const{id} = useParams()
+
+  useEffect(()=>{
+    if(id){
+      obterLivro();
+    }
+  },[])
+
+  const obterLivro=()=>{
+    axios.get(url+"/livro/"+id).then((element)=>{
+      setLivro(element.data);
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
 
   const[livro, setLivro] = useState({
      titulo: "",
@@ -35,7 +52,11 @@ export default function CadastroLivro() {
     event.preventDefault();
     event.stopPropagation();
     schemaLivro.validate(livro).then(()=>{
-      salvar()
+      if(id){
+        atualizar()
+      }else{
+        salvar()
+      }
     }).catch((erro)=>{
       setStatus({tipo:"erro",mensagem:""+erro})
     })
@@ -60,6 +81,20 @@ export default function CadastroLivro() {
     })
   }
 
+  const atualizar = ()=>{
+    axios.put(url+"/livro/"+id,{
+      titulo: livro.titulo,
+      autor: livro.autor,
+      editora: livro.editora,
+      genero: livro.genero,
+      isbn: livro.isbn
+    }).then(()=>{
+      setStatus({tipo:"sucesso",mensagem:"alteração realizada com sucesso"})
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
+
   return (
     <div>
        <MenuFixoDoTopo
@@ -72,29 +107,31 @@ export default function CadastroLivro() {
             <div className={styles.form}>
               <div>
                 <label>Título *: </label>
-                <input type="text" name="titulo" onChange={onChange} placeholder="Digite o nome do livro" className={styles.input}/>
+                <input type="text" name="titulo" onChange={onChange} placeholder="Digite o nome do livro" className={styles.input} value={livro.titulo}/>
               </div>
               <div>
                 <label>Autor *: </label>
-                <input type="text" name="autor" onChange={onChange} placeholder="Digite o nome do autor" className={styles.input}/><br/>
+                <input type="text" name="autor" onChange={onChange} placeholder="Digite o nome do autor" className={styles.input} value={livro.autor}/><br/>
               </div>
               <div>
                 <label>Editora *: </label>
-                <input type="text" name="editora" onChange={onChange} placeholder="Digite o nome da editora"className={styles.input} />
+                <input type="text" name="editora" onChange={onChange} placeholder="Digite o nome da editora"className={styles.input} value={livro.editora} />
               </div>
               <div>
                 <label>Gênero *: </label>
-                <input type="text" name="genero" onChange={onChange} placeholder="Digite o gênero do livro" className={styles.input}/><br/>
+                <input type="text" name="genero" onChange={onChange} placeholder="Digite o gênero do livro" className={styles.input} value={livro.genero}/><br/>
               </div>
               <div>
                 <label>ISBN *: </label>
-                <input type="text" name="isbn" onChange={onChange} placeholder="Digite o isbn do livro" className={styles.input}/><br/>
+                <input type="text" name="isbn" onChange={onChange} placeholder="Digite o isbn do livro" className={styles.input} value={livro.isbn}/><br/>
               </div>
               <div>
                 
               </div>
             </div>
-            <button type="submit" >Cadastrar</button>
+            {id? <button type="submit" >Atualizar</button>
+            :<button type="submit" >Cadastrar</button>}
+            
         </form>
     </div>
   )
