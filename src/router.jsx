@@ -9,6 +9,7 @@ import CadastroLivro from './screens/livro/CadastroLivro'
 import ListaDeLivro from './screens/livro/ListaDeLivro'
 import Livro from './screens/livro/Livro'
 import ExclucaoDeLivro from './screens/livro/ExclucaoDeLivro'
+import CadastroEmprestimo from './screens/emprestimo/CadastroEmprestimo'
 
 export default function router() {
   return (
@@ -25,6 +26,7 @@ export default function router() {
             <Route path="/livros/:id" element={<Livro/>}/>
             <Route path="/cadastroLivro/:id" element={<CadastroLivro/>}/>
             <Route path="/excluirLivro/:id" element={<ExclucaoDeLivro/>}/>
+            <Route path="/cadastroEmprestimo" element={<CadastroEmprestimo/>}/>
         </Routes>
     </BrowserRouter>
   )

@@ -1,0 +1,25 @@
+.form{
+    display: grid;
+    grid-template-columns: 600px 600px;
+    margin:60px;
+}
+
+.input{
+   height: 50px;
+   width:300px;
+   margin: 20px;
+   padding: 20px;
+}
+
+.inputSelect{
+    height: 50px;
+    width:300px;
+    padding: 20px;
+ }
+
+.select{
+   height: 50px;
+   width:360px;
+   margin: 40px;
+   padding: 10px; 
+}
